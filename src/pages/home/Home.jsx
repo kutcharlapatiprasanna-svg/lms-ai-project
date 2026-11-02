@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import "./Home.css";
+import learningHero from "../../assets/learning-hero.svg";
 import { CourseContext } from "../../state-mgmt/CourseContext";
 import { errMsg, thumbnailUrl } from "../../utils";
 
@@ -42,32 +43,30 @@ const Home = () => {
       <section className="home-hero">
         <div className="hero-content">
           <span className="hero-badge">
-            YOUR NEXT CHAPTER STARTS HERE
+            SKILLS FOR WHAT'S NEXT
           </span>
 
           <h1>
-            Unlock Your Potential Through Learning
-            <span>new today</span>
+            Make your next move
+            <span> a big one.</span>
           </h1>
 
           <p>
-            Discover in-demand skills, learn from expert-led courses,
-            and turn your ambitions into achievements.
+            Build practical skills with expert-led courses and take a
+            confident step toward the future you want.
           </p>
 
           <Link to="/courses" className="home-primary-button">
-            Explore Courses
+            Find Your Next Course
             <span>→</span>
           </Link>
         </div>
 
-        <div className="hero-decoration">
-          <div className="hero-icon">✦</div>
-          <div className="hero-stat">
-            <span>Keep learning</span>
-            <strong>Grow your skills</strong>
-          </div>
-        </div>
+        <img
+          className="hero-art"
+          src={learningHero}
+          alt="A learner building new skills at their laptop"
+        />
       </section>
 
       {/* LMS Marketplace */}

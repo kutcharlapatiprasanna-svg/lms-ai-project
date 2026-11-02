@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="460" viewBox="0 0 560 460" fill="none">
+  <defs>
+    <linearGradient id="scene" x1="30" y1="12" x2="526" y2="460" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#322128"/>
+      <stop offset="1" stop-color="#171316"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="194" y1="218" x2="350" y2="386" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E34A5F"/>
+      <stop offset="1" stop-color="#9E1E32"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="196" y1="292" x2="379" y2="392" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#373139"/>
+      <stop offset="1" stop-color="#171316"/>
+    </linearGradient>
+    <linearGradient id="desk" x1="59" y1="390" x2="485" y2="440" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9A5260"/>
+      <stop offset="1" stop-color="#56212C"/>
+    </linearGradient>
+    <filter id="shadow" x="157" y="289" width="254" height="159" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+  </defs>
+  <rect width="560" height="460" rx="26" fill="url(#scene)"/>
+  <circle cx="376" cy="177" r="127" fill="#9D263A" fill-opacity=".26"/>
+  <circle cx="376" cy="177" r="89" stroke="#EF7181" stroke-opacity=".16"/>
+  <path d="M37 369h488v25H37z" fill="#24191D"/>
+  <path d="M57 393h448l-20 22H77z" fill="url(#desk)"/>
+  <path d="M87 415h11v28H87zm366 0h11v28h-11z" fill="#57252F"/>
+  <path d="M117 260c8-32 31-52 69-63l50-13h75l45 15c35 12 55 36 62 70l12 104H102z" fill="url(#shirt)"/>
+  <path d="M221 188h76v48c0 20-16 36-36 36h-4c-20 0-36-16-36-36v-48z" fill="#B96749"/>
+  <path d="M208 126c0-40 28-68 67-68 42 0 69 30 69 73v37c0 43-30 72-68 72s-68-29-68-72v-42z" fill="#D58A64"/>
+  <path d="M204 145c-12-47 8-88 42-101 39-16 83 0 98 33 11 23 10 54 3 73l-8-27c-16-3-31-13-41-29-20 21-48 32-89 33l-5 18z" fill="#21191B"/>
+  <path d="M218 165c8-4 17-4 25 0m47 0c8-4 17-4 25 0" stroke="#432322" stroke-width="4" stroke-linecap="round"/>
+  <path d="M250 199c9 7 19 7 28 0" stroke="#8A3E3D" stroke-width="4" stroke-linecap="round"/>
+  <path d="M187 252c16-18 33-27 53-30l18 25 20-25c20 4 38 14 53 31l-22 104H209z" fill="#F0E7DF"/>
+  <path d="m240 222 18 25-16 16-20-30zm58 0-20 25 16 16 21-30z" fill="#B42336"/>
+  <path d="M180 291h213l18 99H162l18-99z" fill="#111013" fill-opacity=".42" filter="url(#shadow)"/>
+  <path d="M191 286h178c8 0 14 6 14 14v85H177v-85c0-8 6-14 14-14z" fill="url(#screen)" stroke="#75616A" stroke-width="2"/>
+  <path d="M201 303h69v5h-69zm0 14h113v5H201zm0 14h91v5h-91z" fill="#E95B70" fill-opacity=".85"/>
+  <path d="M201 345h126v5H201z" fill="#F4B2BA" fill-opacity=".7"/>
+  <path d="M166 385h228l18 12H148l18-12z" fill="#D8CCD0"/>
+  <path d="M249 391h61l8 5h-77l8-5z" fill="#8D7D83"/>
+  <rect x="375" y="53" width="137" height="75" rx="15" fill="#FCF8F5"/>
+  <circle cx="400" cy="78" r="11" fill="#B42336"/>
+  <path d="M396 78h8m-4-4v8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <path d="M393 101h97" stroke="#E8DADD" stroke-width="2"/>
+  <text x="419" y="82" fill="#322128" font-family="Arial, sans-serif" font-size="12" font-weight="700">NEW SKILL</text>
+  <text x="393" y="117" fill="#75666B" font-family="Arial, sans-serif" font-size="11">One lesson at a time</text>
+  <rect x="44" y="126" width="116" height="60" rx="14" fill="#3B2A31" stroke="#76505A"/>
+  <path d="M62 164v-13h8v13m5 0v-22h8v22m5 0v-30h8v30" stroke="#F06B7D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="103" y="151" fill="#F9F1F1" font-family="Arial, sans-serif" font-size="11" font-weight="700">LEVEL UP</text>
+  <text x="103" y="168" fill="#D5BFC4" font-family="Arial, sans-serif" font-size="10">Your way</text>
+  <path d="M465 281h16m-8-8v16" stroke="#F06B7D" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="91" cy="230" r="4" fill="#F06B7D"/>
+  <circle cx="485" cy="213" r="3" fill="#F6BEC5"/>
+</svg>

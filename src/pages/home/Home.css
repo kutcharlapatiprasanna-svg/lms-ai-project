@@ -8,20 +8,23 @@
 }
 
 .home-hero {
-  min-height: 330px;
+  min-height: 390px;
   padding: 55px 6%;
   border-radius: 22px;
-  background: linear-gradient(120deg, #142b3b, #244f60);
+  background:
+    radial-gradient(ellipse at 82% 48%, rgba(180, 35, 54, .23), transparent 36%),
+    linear-gradient(120deg, #171316 0%, #27171b 66%, #4b1b25 100%);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 30px;
   color: white;
   overflow: hidden;
+  box-shadow: 0 18px 42px rgba(37, 17, 23, .16);
 }
 
 .hero-content {
-  max-width: 650px;
+  max-width: 620px;
 }
 
 .hero-badge,
@@ -33,18 +36,18 @@
 }
 
 .hero-badge {
-  color: #8be0d7;
+  color: #f0a3ae;
 }
 
 .home-hero h1 {
   margin: 18px 0;
-  font-size: clamp(34px, 4vw, 52px);
+  font-size: clamp(36px, 4.2vw, 56px);
   line-height: 1.15;
   letter-spacing: -1.5px;
 }
 
 .home-hero h1 span {
-  color: #62d0c5;
+  color: #f06b7d;
 }
 
 .home-hero p {
@@ -63,8 +66,8 @@
   margin-top: 18px;
   padding: 13px 21px;
   border-radius: 8px;
-  background: #62d0c5;
-  color: #142b3b;
+  background: #c52d43;
+  color: #ffffff;
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
@@ -73,44 +76,20 @@
 
 .home-primary-button:hover,
 .home-secondary-button:hover {
-  background: #8be0d7;
+  background: #a92035;
   transform: translateY(-2px);
 }
 
-.hero-decoration {
-  min-width: 190px;
-  min-height: 180px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.17);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.07);
-  transform: rotate(3deg);
-}
-
-.hero-icon {
-  color: #62d0c5;
-  font-size: 65px;
-}
-
-.hero-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7px;
-}
-
-.hero-stat span {
-  color: #d6e2e8;
-  font-size: 12px;
-}
-
-.hero-stat strong {
-  color: #ffffff;
-  font-size: 14px;
+.hero-art {
+  display: block;
+  width: min(42%, 440px);
+  min-width: 280px;
+  flex: 0 1 440px;
+  aspect-ratio: 1.22;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 22px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .28);
 }
 
 .home-marketplace {
@@ -359,8 +338,17 @@
 }
 
 @media (max-width: 900px) {
-  .hero-decoration {
-    display: none;
+  .home-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-art {
+    width: 100%;
+    max-width: 480px;
+    min-width: 0;
+    flex-basis: auto;
+    align-self: center;
   }
 
   .home-course-grid {
@@ -384,8 +372,13 @@
 
   .home-hero {
     min-height: auto;
-    padding: 35px 24px;
+    padding: 35px 24px 24px;
     border-radius: 15px;
+  }
+
+  .hero-art {
+    max-width: 100%;
+    border-radius: 14px;
   }
 
   .home-hero p {

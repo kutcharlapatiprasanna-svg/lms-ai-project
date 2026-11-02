@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import "./Course.css";
+import coursesHero from "../../assets/courses-hero.svg";
 import { CourseContext } from "../../state-mgmt/CourseContext";
 import { tagsToString, thumbnailUrl } from "../../utils";
 import Spinner from "../../Spinner";
@@ -69,11 +70,18 @@ export default function Course() {
     <div className="courses-page">
       {/* 1. HERO */}
       <section className="courses-hero">
-        <span className="courses-hero-label">LEARN WITHOUT LIMITS</span>
-        <h1>
-          Explore Our <span>Courses</span>
-        </h1>
-        <p>Discover courses, improve your skills, and build your future with expert-led learning.</p>
+        <div className="courses-hero-content">
+          <span className="courses-hero-label">LEARN WITHOUT LIMITS</span>
+          <h1>
+            Explore Our <span>Courses</span>
+          </h1>
+          <p>Discover courses, improve your skills, and build your future with expert-led learning.</p>
+        </div>
+        <img
+          className="courses-hero-image"
+          src={coursesHero}
+          alt="Open books and a course card ready to explore"
+        />
       </section>
 
       {/* 2. SEARCH + FILTERS */}
