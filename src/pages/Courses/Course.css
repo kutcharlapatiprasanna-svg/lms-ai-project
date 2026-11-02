@@ -1,0 +1,312 @@
+/* =====================================================================
+   COURSES PAGE  ·  src/pages/Courses/Course.css
+   Same teal palette + card design as the Home page.
+   Every class starts with "courses-" so it can never clash with Home.css.
+   ===================================================================== */
+
+.courses-page {
+  --ink: #142b3b;
+  --ink-2: #244f60;
+  --teal: #BC0202;
+  --teal-dark: #830000;
+  --mint: #fef2f2;
+  --title: #24445c;
+  --line: #e0e9ec;
+  --soft: #f4f8f9;
+  --muted: #657782;
+
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px 5% 70px;
+  color: var(--title);
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+.courses-page *,
+.courses-page *::before,
+.courses-page *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- 1. HERO: centered text in a dark box ---------- */
+.courses-hero {
+  padding: 64px 6% 80px;
+  border-radius: 22px;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(120deg, var(--ink), var(--ink-2));
+}
+
+.courses-hero-label {
+  display: inline-block;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #9fe0dc;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.courses-hero h1 {
+  margin: 18px 0 12px;
+  font-size: clamp(30px, 4.5vw, 48px);
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.courses-hero h1 span {
+  color: #7fd6d1;
+}
+
+.courses-hero p {
+  max-width: 560px;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #cfe0e6;
+}
+
+/* ---------- 2. TOOLBAR: one white box, overlaps the hero ---------- */
+.courses-toolbar {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 190px 220px;
+  gap: 12px;
+  max-width: 980px;
+  margin: -32px auto 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(36, 68, 92, 0.12);
+}
+
+.courses-toolbar input,
+.courses-toolbar select {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--soft);
+  color: var(--title);
+  font-family: inherit;
+  font-size: 14px;
+  outline: 0;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.courses-toolbar select {
+  cursor: pointer;
+}
+
+.courses-toolbar input:focus,
+.courses-toolbar select:focus {
+  background: #fff;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 4px rgba(57, 127, 134, 0.15);
+}
+
+/* ---------- 3. RESULTS HEADER ---------- */
+.courses-results {
+  margin-top: 40px;
+}
+
+.courses-results-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.courses-results-head h2 {
+  margin: 0;
+  font-size: 26px;
+  color: var(--title);
+}
+
+.courses-results-head span {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal-dark);
+  background: var(--mint);
+}
+
+/* ---------- 4. GRID + CARD (same as Home) ---------- */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.courses-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(36, 68, 92, 0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.courses-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(36, 68, 92, 0.1);
+}
+
+.courses-card-image {
+  position: relative;
+  display: block;
+  height: 190px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e8f0f2, #d3e4e7);
+}
+
+.courses-card-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.courses-card:hover .courses-card-image img {
+  transform: scale(1.04);
+}
+
+/* big first letter shows behind the image if it fails to load */
+.courses-card-initial {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 56px;
+  font-weight: 800;
+  color: var(--teal);
+}
+
+.courses-card-body {
+  padding: 20px;
+}
+
+.courses-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.courses-level,
+.courses-category {
+  display: inline-block;
+  padding: 6px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.courses-level {
+  color: var(--teal-dark);
+  background: var(--mint);
+}
+
+.courses-category {
+  color: var(--muted);
+  background: var(--soft);
+}
+
+.courses-card-body h3 {
+  min-height: 48px;
+  margin: 14px 0;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--title);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.courses-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #e9eff1;
+}
+
+.courses-card-footer strong {
+  font-size: 18px;
+  color: var(--title);
+}
+
+.courses-view-link {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--teal);
+  text-decoration: none;
+}
+
+.courses-view-link:hover {
+  color: var(--teal-dark);
+  text-decoration: underline;
+}
+
+/* ---------- 5. EMPTY STATE ---------- */
+.courses-empty {
+  padding: 60px 20px;
+  border: 2px dashed var(--line);
+  border-radius: 14px;
+  background: var(--soft);
+  text-align: center;
+}
+
+.courses-empty h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.courses-empty p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ---------- 6. RESPONSIVE ---------- */
+@media (max-width: 1000px) {
+  .courses-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .courses-toolbar {
+    grid-template-columns: 1fr 1fr;
+  }
+  .courses-search {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 620px) {
+  .courses-page {
+    padding: 20px 4% 50px;
+  }
+  .courses-hero {
+    padding: 48px 5% 64px;
+  }
+  .courses-toolbar {
+    grid-template-columns: 1fr;
+  }
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+  .courses-results-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
