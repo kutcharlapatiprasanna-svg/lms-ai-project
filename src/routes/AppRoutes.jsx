@@ -547,6 +547,7 @@ export default function AppRoutes() {
         {/* PUBLIC ROUTES */}
         <Route path="/" element={<Home />} />
         <Route path="/courses" element={<Course />} />
+        <Route path="/courses/:id" element={<LmsCourseDetails />} />
 
         {/* AUTHENTICATION ROUTES */}
         <Route element={<PublicRoute />}>

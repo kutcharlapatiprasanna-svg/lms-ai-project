@@ -10,6 +10,11 @@ import "./ProfileSettings.css";
 const DEFAULT_PROFILE_IMAGE =
   "https://i.pravatar.cc/150?img=47";
 
+const profileImageUrl = (image) => {
+  if (typeof image === "string") return image;
+  return image?.url || image?.secure_url || DEFAULT_PROFILE_IMAGE;
+};
+
 export default function ProfileSettings() {
   const { user, updateUser } = useAuth();
 
@@ -19,11 +24,8 @@ export default function ProfileSettings() {
 
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const [previewImage, setPreviewImage] = useState(
-    user?.profilePicture ||
-      user?.avatar ||
-      user?.image ||
-      DEFAULT_PROFILE_IMAGE
+  const [previewImage, setPreviewImage] = useState(() =>
+    profileImageUrl(user?.profilePicture || user?.avatar || user?.image)
   );
 
   const [loading, setLoading] = useState(false);
@@ -34,7 +36,7 @@ export default function ProfileSettings() {
   // CLEAN UP PREVIEW IMAGE URL
   useEffect(() => {
     return () => {
-      if (previewImage?.startsWith("blob:")) {
+      if (typeof previewImage === "string" && previewImage.startsWith("blob:")) {
         URL.revokeObjectURL(previewImage);
       }
     };
@@ -116,7 +118,7 @@ export default function ProfileSettings() {
         finalUser.image;
 
       if (returnedImage) {
-        setPreviewImage(returnedImage);
+        setPreviewImage(profileImageUrl(returnedImage));
       }
 
       setSelectedImage(null);
