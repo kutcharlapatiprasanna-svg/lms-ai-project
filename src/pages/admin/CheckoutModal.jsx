@@ -133,7 +133,9 @@ const CheckoutModal = ({ course, onClose, onPaid }) => {
 
         {!stripePromise ? (
           <p className={Styles.error}>
-            Stripe key missing. Add VITE_STRIPE_PUBLISHABLE_KEY to your .env file and restart the dev server.
+            Online payment is not configured yet. Add your Stripe test publishable key as
+            VITE_STRIPE_PUBLISHABLE_KEY in the frontend .env file, configure the Stripe secret
+            key on the API server, and restart both services.
           </p>
         ) : intent ? (
           <Elements stripe={stripePromise} options={{ clientSecret: intent.clientSecret }}>

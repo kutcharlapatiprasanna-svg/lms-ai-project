@@ -243,7 +243,17 @@ const LmsAdmin = () => {
   const [tab, setTab] = useState("overview");
 
   return (
-    <>
+    <main className={S.adminPage}>
+      <header className={S.adminHeading}>
+        <div>
+          <span className={S.adminEyebrow}>LEARNING PLATFORM</span>
+          <h1>Marketplace administration</h1>
+          <p>Manage courses, orders, learners, and marketplace settings.</p>
+        </div>
+        <span className={S.adminBadge}>ADMIN CONSOLE</span>
+      </header>
+
+      <section className={S.adminWorkspace}>
       <Tabs tabs={TABS} value={tab} onChange={setTab} />
 
       {tab === "overview" && <Overview />}
@@ -253,7 +263,8 @@ const LmsAdmin = () => {
       {tab === "instructors" && <List call={GetInstructorsApi} keys={["instructors", "users"]} title="Instructors" />}
       {tab === "categories" && <Categories />}
       {tab === "coupons" && <Coupons />}
-    </>
+      </section>
+    </main>
   );
 };
 

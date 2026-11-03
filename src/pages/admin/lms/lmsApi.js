@@ -204,9 +204,8 @@ export const courseIdOf = (item) =>
 export const flattenLearning = (res) => {
   const rows = Array.isArray(res)
     ? res
-    : Object.values(res || {})
-        .filter(Array.isArray)
-        .flat();
+    : ["continueLearning", "inProgress", "completed", "enrollments", "courses"]
+        .flatMap((key) => (Array.isArray(res?.[key]) ? res[key] : []));
 
   const seen = new Set();
 

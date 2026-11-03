@@ -80,11 +80,13 @@ export const ErrorBox = ({ message }) => (message ? <div className={S.error}>{me
 export const Empty = ({ children }) => <div className={S.empty}>{children}</div>;
 
 export const Tabs = ({ tabs, value, onChange }) => (
-  <div className={S.tabs}>
+  <div className={S.tabs} role="tablist" aria-label="LMS administration sections">
     {tabs.map(([key, label]) => (
       <button
         key={key}
         type="button"
+        role="tab"
+        aria-selected={value === key}
         className={`${S.tab} ${value === key ? S.tabActive : ""}`}
         onClick={() => onChange(key)}
       >

@@ -5,7 +5,7 @@
 
 
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import S from "./lms.module.css";
@@ -35,6 +35,15 @@ import {
 import { errMsg, thumbnailUrl } from "../../../utils";
 import useAuth from "../../../hooks/useAuth";
 import CheckoutModal from "../CheckoutModal";
+
+const toItems = (value) => {
+  if (Array.isArray(value)) return value;
+  if (typeof value === "string") return value.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
+  return value && typeof value === "object" ? Object.values(value) : [];
+};
+
+const itemText = (item) =>
+  typeof item === "string" ? item : item?.title || item?.name || item?.description || "";
 
 const LmsCourseDetail = () => {
   const params = useParams();
@@ -104,11 +113,8 @@ const LmsCourseDetail = () => {
   }
 
   const course = detail.data?.course ?? detail.data ?? {};
-  const benefits = Array.isArray(course.benefits)
-    ? course.benefits
-    : course.benefits
-      ? [course.benefits]
-      : [];
+  const benefits = toItems(course.benefits).map(itemText).filter(Boolean);
+  const prerequisites = toItems(course.prerequisites).map(itemText).filter(Boolean);
 
   const lectures = toList(
     curriculum.data,
@@ -121,12 +127,7 @@ const LmsCourseDetail = () => {
     flattenLearning(learning.data).map(courseIdOf)
   );
 
-  const enrolled =
-    enrolledIds.has(courseId) ||
-    lectures.some(
-      (lecture) =>
-        lecture.locked === false && !lecture.isPreview
-    );
+  const enrolled = enrolledIds.has(courseId);
 
   // Group lectures by section title
   const groups = lectures.reduce((acc, lecture) => {
@@ -138,13 +139,17 @@ const LmsCourseDetail = () => {
   }, {});
 
   const openLecture = (lecture) => {
-    if (lecture.locked) {
+    if (lecture.locked && !enrolled) {
       return toast("Enroll in this course to unlock this lecture");
     }
 
     navigate(
       `/lms/course/${courseId}/lecture/${lecture._id}`
     );
+  };
+
+  const startLearning = () => {
+    navigate("/lms/learning");
   };
 
   const buy = () => {
@@ -184,12 +189,6 @@ const LmsCourseDetail = () => {
 
   return (
     <main className={S.coursePage}>
-      <nav className={S.breadcrumb} aria-label="Breadcrumb">
-        <Link to="/courses">Courses</Link>
-        <span aria-hidden="true">/</span>
-        <span>{course.name || "Course details"}</span>
-      </nav>
-
       <div className={S.detail}>
         <div className={S.detailMedia}>
           <img
@@ -197,9 +196,7 @@ const LmsCourseDetail = () => {
             alt={course.name || "Course"}
           />
         </div>
-
         <div className={S.detailContent}>
-          <span className={S.detailEyebrow}>COURSE OVERVIEW</span>
           {course.level && (
             <span className={`${S.badge} ${S.detailLevel}`}>{course.level}</span>
           )}
@@ -208,77 +205,93 @@ const LmsCourseDetail = () => {
 
           <p className={S.detailDescription}>{course.description}</p>
 
+          <div className={S.detailPrice}>
+            <strong>₹{Number(course.price ?? 0).toLocaleString("en-IN")}</strong>
+            {course.estimatedPrice > course.price && (
+              <del>₹{Number(course.estimatedPrice).toLocaleString("en-IN")}</del>
+            )}
+          </div>
+
           <div className={S.detailMeta}>
             <span className={S.detailRating}>
-              <span aria-hidden="true">★</span> {Number(course.rating || 0).toFixed(1)}
+              <span aria-hidden="true">★</span> {Number(course.rating || 0)}
             </span>
-            <span>{Number(course.purchased || 0).toLocaleString()} learners</span>
-            {course.tags && <span>{Array.isArray(course.tags) ? course.tags.join(", ") : course.tags}</span>}
+            <span>{Number(course.purchased || 0).toLocaleString()} students</span>
           </div>
 
-          <div className={S.purchasePanel}>
-            <div className={S.detailPrice}>
-              <strong>₹{Number(course.price ?? 0).toLocaleString("en-IN")}</strong>
-              {course.estimatedPrice > course.price && (
-                <del>₹{Number(course.estimatedPrice).toLocaleString("en-IN")}</del>
-              )}
-            </div>
-
-            <div className={S.detailActions}>
-              {enrolled ? (
-                <button
-                  className={`${S.btn} ${S.detailPrimary}`}
-                  onClick={() => navigate("/lms/learning")}
-                >
-                  Go to My Learning <span aria-hidden="true">→</span>
-                </button>
-              ) : (
-                <button className={`${S.btn} ${S.detailPrimary}`} onClick={buy}>
-                  Enroll now <span aria-hidden="true">→</span>
-                </button>
-              )}
-
-              <button
-                className={`${S.btn} ${S.btnGhost} ${S.detailWishlist}`}
-                onClick={() => toggle(courseId)}
+          <div className={S.detailActions}>
+            {course.demoUrl && (
+              <a
+                className={`${S.btn} ${S.detailDemo}`}
+                href={course.demoUrl}
+                target="_blank"
+                rel="noreferrer"
               >
-                {wishIds.has(courseId) ? "♥ Saved to wishlist" : "♡ Add to wishlist"}
+                Watch Demo
+              </a>
+            )}
+
+            {enrolled ? (
+              <button
+                className={`${S.btn} ${S.detailPrimary}`}
+                onClick={startLearning}
+              >
+                Start Learning
               </button>
+            ) : (
+              <button className={`${S.btn} ${S.detailPrimary}`} onClick={buy}>
+                Buy Course
+              </button>
+            )}
 
-              {course.demoUrl && (
-                <a
-                  className={S.detailDemo}
-                  href={course.demoUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Preview course
-                </a>
-              )}
-            </div>
+            <button
+              className={`${S.btn} ${S.btnGhost} ${S.detailWishlist}`}
+              onClick={() => toggle(courseId)}
+            >
+              {wishIds.has(courseId) ? "❤️ In wishlist" : "♡ Add to wishlist"}
+            </button>
           </div>
-
-          {benefits.length > 0 && (
-            <div className={S.benefits}>
-              <h2>What you’ll learn</h2>
-              <ul>
-                {benefits.map((benefit, index) => (
-                  <li key={benefit?._id || index}>
-                    <span aria-hidden="true">✓</span>
-                    {typeof benefit === "string" ? benefit : benefit.title}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       </div>
 
       <section className={S.courseSection}>
         <div className={S.courseSectionHeading}>
           <div>
-            <span>YOUR LEARNING PATH</span>
-            <h2>Course curriculum</h2>
+            <h2>What You Will Learn</h2>
+          </div>
+        </div>
+        {benefits.length ? (
+          <ul className={S.courseInfoList}>
+            {benefits.map((benefit, index) => (
+              <li key={`${benefit}-${index}`}>{benefit}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className={S.courseInfoEmpty}>No benefits added.</p>
+        )}
+      </section>
+
+      <section className={S.courseSection}>
+        <div className={S.courseSectionHeading}>
+          <div>
+            <h2>Prerequisites</h2>
+          </div>
+        </div>
+        {prerequisites.length ? (
+          <ul className={S.courseInfoList}>
+            {prerequisites.map((prerequisite, index) => (
+              <li key={`${prerequisite}-${index}`}>{prerequisite}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className={S.courseInfoEmpty}>No prerequisites added.</p>
+        )}
+      </section>
+
+      <section className={S.courseSection}>
+        <div className={S.courseSectionHeading}>
+          <div>
+            <h2>Course Content</h2>
           </div>
           <span className={S.lessonCount}>
             {lectures.length} {lectures.length === 1 ? "lesson" : "lessons"}
@@ -297,14 +310,14 @@ const LmsCourseDetail = () => {
                       type="button"
                       key={lecture._id || index}
                       className={`${S.lectureRow} ${
-                        lecture.locked ? S.lectureLocked : ""
+                        lecture.locked && !enrolled ? S.lectureLocked : ""
                       }`}
                       onClick={() => openLecture(lecture)}
-                      disabled={Boolean(lecture.locked)}
+                      disabled={Boolean(lecture.locked && !enrolled)}
                     >
                       <span>
                         <span className={S.lectureIcon} aria-hidden="true">
-                          {lecture.locked ? "▣" : "▶"}
+                          {lecture.locked && !enrolled ? "▣" : "▶"}
                         </span>
                         {lecture.title}
 
@@ -337,7 +350,6 @@ const LmsCourseDetail = () => {
       <section className={S.courseSection}>
         <div className={S.courseSectionHeading}>
           <div>
-            <span>STUDENT FEEDBACK</span>
             <h2>Reviews</h2>
           </div>
         </div>
@@ -411,6 +423,8 @@ const LmsCourseDetail = () => {
           onClose={() => setCheckout(false)}
           onPaid={() => {
             setCheckout(false);
+            learning.reload();
+            curriculum.reload();
             toast.success("Course purchased successfully");
             navigate("/lms/learning");
           }}

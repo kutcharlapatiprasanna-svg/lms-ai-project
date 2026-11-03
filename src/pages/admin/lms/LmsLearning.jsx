@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //import toast from "react-hot-toast";
 
 import S from "./lms.module.css";
@@ -7,6 +7,7 @@ import S from "./lms.module.css";
 import {
   DownloadCertificateApi,
   GetCertificatesApi,
+  GetCurriculumApi,
   GetMyLearningApi,
   GetMyPurchasesApi,
   GetProgressAnalyticsApi,
@@ -25,9 +26,39 @@ const percent = (item) => {
   return Math.max(0, Math.min(100, Number(typeof p === "object" ? p?.percentage : p) || 0));
 };
 
+const StartCourseButton = ({ courseId, progress }) => {
+  const navigate = useNavigate();
+  const [starting, setStarting] = useState(false);
+
+  const start = async () => {
+    try {
+      setStarting(true);
+      const response = await GetCurriculumApi(courseId);
+      const lessons = toList(response, "curriculum", "lectures", "content");
+      const lesson = lessons.find((item) => item.locked === false) || lessons[0];
+
+      if (!lesson?._id) {
+        toast.error("This course has no lessons available yet");
+        return;
+      }
+
+      navigate(`/lms/course/${courseId}/lecture/${lesson._id}`);
+    } catch (error) {
+      toast.error(errMsg(error, "Could not open this course"));
+    } finally {
+      setStarting(false);
+    }
+  };
+
+  return (
+    <button className={S.btn} onClick={start} disabled={starting}>
+      {starting ? "Loading..." : progress > 0 ? "Continue learning" : "Start learning"}
+    </button>
+  );
+};
+
 const MyCourses = () => {
   const state = useAsync(GetMyLearningApi);
-  const navigate = useNavigate();
 
   return (
     <Async state={state}>
@@ -51,9 +82,12 @@ const MyCourses = () => {
                       <div className={S.progressBar} style={{ width: `${pct}%` }} />
                     </div>
                     <span className={S.muted}>{Math.round(pct)}% complete</span>
-                    <button className={S.btn} onClick={() => navigate(`/lms/course/${id}`)}>
-                      {pct > 0 ? "Continue" : "Start learning"}
-                    </button>
+                    <div className={S.learningCardActions}>
+                      <StartCourseButton courseId={id} progress={pct} />
+                      <Link className={`${S.btn} ${S.btnGhost}`} to={`/lms/course/${id}`}>
+                        View course
+                      </Link>
+                    </div>
                   </div>
                 </article>
               );

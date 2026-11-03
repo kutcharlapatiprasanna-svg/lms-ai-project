@@ -4,7 +4,16 @@ import toast from "react-hot-toast";
 
 import S from "./lms.module.css";
 //import { errMsg, toEmbedUrl } from "../utils";
-import { CompleteLectureApi, GetCurriculumApi, GetLectureApi, SaveProgressApi, toList } from "./lmsApi";
+import {
+  CompleteLectureApi,
+  GetCurriculumApi,
+  GetLectureApi,
+  GetMyLearningApi,
+  SaveProgressApi,
+  courseIdOf,
+  flattenLearning,
+  toList,
+} from "./lmsApi";
 import { ErrorBox, Loading, useAsync } from "./LmsShared";
 import { errMsg,toEmbedUrl } from "../../../utils";
 
@@ -48,14 +57,17 @@ const LmsLecture = () => {
 
   const lectureState = useAsync(() => GetLectureApi(lectureId), [lectureId]);
   const curriculum = useAsync(() => GetCurriculumApi(courseId), [courseId]);
+  const learning = useAsync(GetMyLearningApi, [courseId]);
 
   const [completing, setCompleting] = useState(false);
   const [progress, setProgress] = useState(null);
 
   const list = toList(curriculum.data, "curriculum", "lectures", "content");
+  const enrolled = flattenLearning(learning.data).some((item) => courseIdOf(item) === courseId);
+  const isLocked = (lecture) => Boolean(lecture.locked && !enrolled);
   const index = list.findIndex((l) => l._id === lectureId);
-  const next = list.slice(index + 1).find((l) => !l.locked);
-  const prev = index > 0 ? [...list.slice(0, index)].reverse().find((l) => !l.locked) : null;
+  const next = list.slice(index + 1).find((lecture) => !isLocked(lecture));
+  const prev = index > 0 ? [...list.slice(0, index)].reverse().find((lecture) => !isLocked(lecture)) : null;
 
   const complete = async () => {
     try {
@@ -136,7 +148,7 @@ const LmsLecture = () => {
         <h3>Course content</h3>
         {curriculum.loading && <Loading />}
         {list.map((l, i) =>
-          l.locked ? (
+          isLocked(l) ? (
             <div key={l._id || i} className={`${S.sideItem} ${S.sideLocked}`}>🔒 {l.title}</div>
           ) : (
             <Link
